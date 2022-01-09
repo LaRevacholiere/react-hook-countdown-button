@@ -1,25 +1,31 @@
+import React from 'react';
+import { useTimer } from 'use-timer';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [disable, setDisable] = React.useState(false);
+  const { time, start, status } = useTimer({
+    endTime: 0,
+    initialTime: 60,
+    timerType: 'DECREMENTAL',
+    onTimeOver: () => {setDisable(false)},
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+            <button disabled={disable} onClick={() => setDisable(true), start}>
+              Click Here
+           </button>
+           <p>Please Wait: {time}</p>
+          {status === 'RUNNING' && <p>Verification...</p>}
+        </header>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
